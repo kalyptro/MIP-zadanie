@@ -19,36 +19,50 @@ typedef struct zaznamy{
 ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
 	printf("som n\n");
 	char c;
-	//ZAZNAM *temp = NULL;
+	int i;
 	//otvaranie a kontrola uspesneho otvorenia
-	FILE *fr = fopen("C:\\Users\\samue\\OneDrive\\Desktop\\Projekt 2 PrPr\\Projekt 2\\Projekt 2\\auta.txt", "r");
-	if (!fr) {
-		printf("Zaznamt neboli nacitane\n");
+	FILE *fr1 = fopen("auta.txt", "r");
+	if (!fr1) {
+		printf("Zaznamy neboli nacitane\n");
 	}
 	
 	//zistenie poctu zaznamov a vypis
-	while ((c = getc(fr)) != EOF) {
+	while ((c = getc(fr1)) != EOF) {
 		if (c == '$') {
 			(*p_pocet_zaznamov)++;
 		}
 	}
 	printf("Nacitalo sa %d zaznamov\n", *p_pocet_zaznamov);
-
+	fclose(fr1);
+	FILE *fr2 = fopen("auta.txt", "r");
+	if (!fr2) {
+		printf("Zaznamy neboli nacitane\n");
+	}
 	//postupne naplnenie structov
-	ZAZNAM *temp;
-	for (int i = 0; i < *p_pocet_zaznamov; i++) {
+	ZAZNAM *temp = NULL;
+	for (i = 0; i < *p_pocet_zaznamov; i++) {
 
 		current = (ZAZNAM *)malloc(sizeof(ZAZNAM));        //vytvorenie izolovaneho structu
-		//getc(fr);
-		//getc(fr);
-		//fgets(&(current->kategoria), 51, fr);
-		strcpy(current->kategoria, "wuhu");
+		getc(fr2);
+		getc(fr2);
+		fgets(&current->kategoria, 50, fr2);
+		strtok(current->kategoria, "\n");
+		fgets(&current->znak, 50, fr2);
+		strtok(current->kategoria, "\n");
+		fgets(&current->predajca, 50, fr2);
+		strtok(current->predajca, "\n");
+		fscanf(fr2, "%d", &current->cena);
+		fscanf(fr2, "%d", &current->rok_vyroby);
+		fgets(&current->stav_vozidla, 200, fr2);
+		strtok(current->stav_vozidla, "\n");
+		//strcpy(current->kategoria, "kategiria");
 
+	
 		current->next = NULL;
 
 		if (head == NULL) {									//prepojenie s predchadzajucimi alebo
 			head = current;									//ak je prazdny, tak vztvorenie prveho
-		}
+		}													//tym prvym je potom current
 		else {
 			temp = head;
 			while (temp->next != NULL) {
@@ -57,38 +71,28 @@ ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
 			temp->next = current;
 
 		}
-		
-
-		/*fgets();
-		strtok(, "\n");
-		fscanf(fr, "%s", pole_zaznamov[i].pohlavie);
-		fscanf(fr, "%s", pole_zaznamov[i].rok);
-		fscanf(fr, "%s", pole_zaznamov[i].spz);
-		fscanf(fr, "%s", pole_zaznamov[i].priestupok);
-		fscanf(fr, "%s", pole_zaznamov[i].pokuta);
-		fscanf(fr, "%s", pole_zaznamov[i].datum);
-		//getc(fr);
-		//getc(fr);*/
 
 	}
-	//current->next = NULL;
-	temp = head;
-	while (temp->next != NULL) {
-		printf("kategoria: %s\n", temp->kategoria);
-		temp = temp->next;
-	}
-	
 
-	/*for (current = head; current; current = current->next) {
-		printf("znacka: %s\n", current->kategoria);
-	}*/
-
-	fclose(fr);
+	fclose(fr2);
 	return head;
 }
 
-void funkcia_v(int *p_pocet_zaznamov) {
+void funkcia_v(int *p_pocet_zaznamov, ZAZNAM *head) {
 	printf("som v\n");
+	ZAZNAM *temp = head;
+	if (temp != NULL) {
+		while (temp->next != NULL) {
+			printf("kategoria: %s\n", temp->kategoria);
+			printf("znak: %s\n", temp->znak);
+			printf("predajca: %s\n", temp->predajca);
+			printf("cena: %d\n", temp->cena);
+			printf("rok_vyroby: %d\n", temp->rok_vyroby);
+			printf("stav_vozidla: %s\n", temp->stav_vozidla);
+			temp = temp->next;
+		}
+	}
+
 }
 
 void funkcia_p(int *p_pocet_zaznamov) {
@@ -111,9 +115,9 @@ void funkcia_k() {
 	printf("som k\n");
 }
 
-int main() {
+int main() { 
 	ZAZNAM *head, *current;
-	head = current = NULL;  
+	head = current = NULL;
 	char funkcia;
 	int pocet_zaznamov = 0;
 	int *p_pocet_zaznamov = &pocet_zaznamov;
@@ -123,7 +127,7 @@ int main() {
 		if (funkcia == 'n')
 			head = funkcia_n(&pocet_zaznamov, &head, &current);
 		else if (funkcia == 'v')
-			funkcia_v(&pocet_zaznamov);
+			funkcia_v(&pocet_zaznamov, &head, &current);
 		else if (funkcia == 'p')
 			funkcia_p(&pocet_zaznamov);
 		else if (funkcia == 'z')
