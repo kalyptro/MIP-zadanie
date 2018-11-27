@@ -17,7 +17,6 @@ typedef struct zaznamy{
 } ZAZNAM;
 
 ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
-	printf("som n\n");
 	char c;
 	int i;
 	//otvaranie a kontrola uspesneho otvorenia
@@ -47,15 +46,18 @@ ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
 		getc(fr2);
 		fgets(&current->kategoria, 50, fr2);
 		strtok(current->kategoria, "\n");
-		fgets(&current->znak, 50, fr2);
-		strtok(current->kategoria, "\n");
+		/*fgets(&current->znak, 50, fr2);
+		strtok(current->kategoria, "\n");*/
+		fscanf(fr2, "%s", &current->znak);
+		getc(fr2);
 		fgets(&current->predajca, 50, fr2);
 		strtok(current->predajca, "\n");
 		fscanf(fr2, "%d", &current->cena);
+		getc(fr2);
 		fscanf(fr2, "%d", &current->rok_vyroby);
+		getc(fr2);
 		fgets(&current->stav_vozidla, 200, fr2);
 		strtok(current->stav_vozidla, "\n");
-		//strcpy(current->kategoria, "kategiria");
 
 	
 		current->next = NULL;
@@ -79,16 +81,18 @@ ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
 }
 
 void funkcia_v(int *p_pocet_zaznamov, ZAZNAM *head) {
-	printf("som v\n");
+	int i=1;
 	ZAZNAM *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
+			printf("%d.\n", i);
 			printf("kategoria: %s\n", temp->kategoria);
 			printf("znak: %s\n", temp->znak);
 			printf("predajca: %s\n", temp->predajca);
 			printf("cena: %d\n", temp->cena);
 			printf("rok_vyroby: %d\n", temp->rok_vyroby);
 			printf("stav_vozidla: %s\n", temp->stav_vozidla);
+			i++;
 			temp = temp->next;
 		}
 	}
