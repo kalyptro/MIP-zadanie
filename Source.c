@@ -144,16 +144,34 @@ void funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 	}
 }
 
+//aktualizyuje cenu vozidla podla znacky a roku vyroby
 void funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
-	printf("som a\n");
+	//nacitavanie udajov
+	char zadana_znacka[50];
+	char upper_zadana_znacka[50];
+	int zadany_rok, j=0, i=0;
+	scanf("%s", &zadana_znacka);
+	scanf("%d", &zadany_rok);
+
+	//zmena pismen na velke pre nasledne porovnanie
+	while (zadana_znacka[j - 1]) {
+		upper_zadana_znacka[j] = toupper(zadana_znacka[j]);
+		j++;
+	}
+
 	Zaznam *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
-			
-
+			if ((strcasecmp(upper_zadana_znacka, temp->znacka) == 0) && (zadany_rok = temp->rok_vyroby)) {
+				i++;
+				temp->cena -= 100;
+				if (temp->cena < 0)
+					temp->cena == 0;
+			}
 			temp = temp->next;
 		}
 	}
+	printf("Aktualizovalo sa %d zaznamov\n", i);
 }
 
 void funkcia_k() {
