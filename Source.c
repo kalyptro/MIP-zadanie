@@ -14,9 +14,10 @@ typedef struct zaznamy{
 	int rok_vyroby;
 	char stav_vozidla[200];
 	struct zaznamy *next;
-} ZAZNAM;
+} Zaznam;
 
-ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
+
+Zaznam *funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	char c;
 	int i;
 	//otvaranie a kontrola uspesneho otvorenia
@@ -38,16 +39,14 @@ ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
 		printf("Zaznamy neboli nacitane\n");
 	}
 	//postupne naplnenie structov
-	ZAZNAM *temp = NULL;
-	for (i = 0; i < *p_pocet_zaznamov; i++) {
 
-		current = (ZAZNAM *)malloc(sizeof(ZAZNAM));        //vytvorenie izolovaneho structu
+	Zaznam *temp = NULL;
+	for (i = 0; i < *p_pocet_zaznamov; i++) {
+		current = (Zaznam *)malloc(sizeof(Zaznam));        //vytvorenie izolovaneho structu
 		getc(fr2);
 		getc(fr2);
 		fgets(&current->kategoria, 50, fr2);
 		strtok(current->kategoria, "\n");
-		/*fgets(&current->znak, 50, fr2);
-		strtok(current->kategoria, "\n");*/
 		fscanf(fr2, "%s", &current->znak);
 		getc(fr2);
 		fgets(&current->predajca, 50, fr2);
@@ -59,7 +58,6 @@ ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
 		fgets(&current->stav_vozidla, 200, fr2);
 		strtok(current->stav_vozidla, "\n");
 
-	
 		current->next = NULL;
 
 		if (head == NULL) {									//prepojenie s predchadzajucimi alebo
@@ -71,18 +69,17 @@ ZAZNAM *funkcia_n(int *p_pocet_zaznamov, ZAZNAM *head, ZAZNAM *current) {
 				temp = temp->next;
 			}
 			temp->next = current;
-
 		}
-
 	}
 
 	fclose(fr2);
 	return head;
 }
 
-void funkcia_v(int *p_pocet_zaznamov, ZAZNAM *head) {
+//vypis poloziek
+void funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
 	int i=1;
-	ZAZNAM *temp = head;
+	Zaznam *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
 			printf("%d.\n", i);
@@ -96,7 +93,6 @@ void funkcia_v(int *p_pocet_zaznamov, ZAZNAM *head) {
 			temp = temp->next;
 		}
 	}
-
 }
 
 void funkcia_p(int *p_pocet_zaznamov) {
@@ -120,11 +116,12 @@ void funkcia_k() {
 }
 
 int main() { 
-	ZAZNAM *head, *current;
+	Zaznam *head, *current;
 	head = current = NULL;
 	char funkcia;
 	int pocet_zaznamov = 0;
 	int *p_pocet_zaznamov = &pocet_zaznamov;
+
 
 	while(1) {
 		scanf("%c", &funkcia);
