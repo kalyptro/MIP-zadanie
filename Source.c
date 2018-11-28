@@ -1,5 +1,10 @@
 //Samuel Rosolanka - Projekt 2 PrPr
 
+//pre funkcnost strcasecmp() vo VisualStudio 2017
+#ifdef _MSC_VER 
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
@@ -115,23 +120,23 @@ void funkcia_h(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 		upper_zadana_znacka[j] = toupper(zadana_znacka[j]);
 		j++;
 	}
-	printf("%s\n", upper_zadana_znacka);
 	//kontrola podmienok a vypis
 	Zaznam *temp = head;
-	/*if (temp != NULL) {
+	if (temp != NULL) {
 		while (temp->next != NULL) {
-
-			printf("%d.\n", i);
-			printf("kategoria: %s\n", temp->kategoria);
+			//printf("%d.\n", i);
+			//printf("kategoria: %s\n", temp->kategoria);
 			printf("znak: %s\n", temp->znak);
-			printf("predajca: %s\n", temp->predajca);
-			printf("cena: %d\n", temp->cena);
-			printf("rok_vyroby: %d\n", temp->rok_vyroby);
-			printf("stav_vozidla: %s\n", temp->stav_vozidla);
+			if (strcasecmp(upper_zadana_znacka, temp->znak) == 0)
+				printf("rovnake\n");
+			//printf("predajca: %s\n", temp->predajca);
+			//printf("cena: %d\n", temp->cena);
+			//printf("rok_vyroby: %d\n", temp->rok_vyroby);
+			//printf("stav_vozidla: %s\n", temp->stav_vozidla);
 			i++;
 			temp = temp->next;
 		}
-	}*/
+	}
 }
 
 void funkcia_a(int *p_pocet_zaznamov) {
