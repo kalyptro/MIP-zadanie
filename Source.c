@@ -13,7 +13,7 @@
 //vytvorenie struct
 typedef struct zaznamy{
 	char kategoria[50];
-	char znak[50];
+	char znacka[50];
 	char predajca[50];
 	int cena;
 	int rok_vyroby;
@@ -52,7 +52,7 @@ Zaznam *funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 		getc(fr2);
 		fgets(&current->kategoria, 50, fr2);
 		strtok(current->kategoria, "\n");
-		fscanf(fr2, "%s", &current->znak);
+		fscanf(fr2, "%s", &current->znacka);
 		getc(fr2);
 		fgets(&current->predajca, 50, fr2);
 		strtok(current->predajca, "\n");
@@ -89,7 +89,7 @@ void funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
 		while (temp->next != NULL) {
 			printf("%d.\n", i);
 			printf("kategoria: %s\n", temp->kategoria);
-			printf("znak: %s\n", temp->znak);
+			printf("znacka: %s\n", temp->znacka);
 			printf("predajca: %s\n", temp->predajca);
 			printf("cena: %d\n", temp->cena);
 			printf("rok_vyroby: %d\n", temp->rok_vyroby);
@@ -108,34 +108,39 @@ void funkcia_z(int *p_pocet_zaznamov) {
 	printf("som z\n");
 }
 
+//vypise auta podla nazvu a ceny
 void funkcia_h(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	//nacita udaje
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
 	int zadana_cena, i=1, j=0;
 	scanf("%s", &zadana_znacka);
-	//scanf("%d", &zadana_cena);
-	//char auticko[50] = "audi";
+	scanf("%d", &zadana_cena);
+	
+	//zmena pismen na velke pre nasledne porovnanie
 	while (zadana_znacka[j-1]) {
 		upper_zadana_znacka[j] = toupper(zadana_znacka[j]);
 		j++;
 	}
+	
 	//kontrola podmienok a vypis
 	Zaznam *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
-			//printf("%d.\n", i);
-			//printf("kategoria: %s\n", temp->kategoria);
-			printf("znak: %s\n", temp->znak);
-			if (strcasecmp(upper_zadana_znacka, temp->znak) == 0)
-				printf("rovnake\n");
-			//printf("predajca: %s\n", temp->predajca);
-			//printf("cena: %d\n", temp->cena);
-			//printf("rok_vyroby: %d\n", temp->rok_vyroby);
-			//printf("stav_vozidla: %s\n", temp->stav_vozidla);
-			i++;
+			if ((strcasecmp(upper_zadana_znacka, temp->znacka) == 0) && (zadana_cena >= temp->cena)) {
+				printf("%d.\n", i);
+				printf("kategoria: %s\n", temp->kategoria);
+				printf("znacka: %s\n", temp->znacka);
+				printf("predajca: %s\n", temp->predajca);
+				printf("cena: %d\n", temp->cena);
+				printf("rok_vyroby: %d\n", temp->rok_vyroby);
+				printf("stav_vozidla: %s\n", temp->stav_vozidla);
+				i++;
+			}
 			temp = temp->next;
 		}
+		if (i == 1)
+			printf("V ponuke nie su pozadovane auta.\n");
 	}
 }
 
