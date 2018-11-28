@@ -104,7 +104,16 @@ void funkcia_z(int *p_pocet_zaznamov) {
 }
 
 void funkcia_h(int *p_pocet_zaznamov) {
-	printf("som h\n");
+	//nacita udaje
+	char zadana_znacka[50];
+	int zadana_cena, i;
+	scanf("%s", &zadana_znacka);
+	scanf("%d", &zadana_cena);
+
+	//kontrola podmienok a vypis
+	for (i = 0; i < *p_pocet_zaznamov; i++) {
+
+	}
 }
 
 void funkcia_a(int *p_pocet_zaznamov) {
