@@ -103,17 +103,35 @@ void funkcia_z(int *p_pocet_zaznamov) {
 	printf("som z\n");
 }
 
-void funkcia_h(int *p_pocet_zaznamov) {
+void funkcia_h(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	//nacita udaje
 	char zadana_znacka[50];
-	int zadana_cena, i;
+	char upper_zadana_znacka[50];
+	int zadana_cena, i=1, j=0;
 	scanf("%s", &zadana_znacka);
-	scanf("%d", &zadana_cena);
-
-	//kontrola podmienok a vypis
-	for (i = 0; i < *p_pocet_zaznamov; i++) {
-
+	//scanf("%d", &zadana_cena);
+	//char auticko[50] = "audi";
+	while (zadana_znacka[j-1]) {
+		upper_zadana_znacka[j] = toupper(zadana_znacka[j]);
+		j++;
 	}
+	printf("%s\n", upper_zadana_znacka);
+	//kontrola podmienok a vypis
+	Zaznam *temp = head;
+	/*if (temp != NULL) {
+		while (temp->next != NULL) {
+
+			printf("%d.\n", i);
+			printf("kategoria: %s\n", temp->kategoria);
+			printf("znak: %s\n", temp->znak);
+			printf("predajca: %s\n", temp->predajca);
+			printf("cena: %d\n", temp->cena);
+			printf("rok_vyroby: %d\n", temp->rok_vyroby);
+			printf("stav_vozidla: %s\n", temp->stav_vozidla);
+			i++;
+			temp = temp->next;
+		}
+	}*/
 }
 
 void funkcia_a(int *p_pocet_zaznamov) {
@@ -143,7 +161,7 @@ int main() {
 		else if (funkcia == 'z')
 			funkcia_z(&pocet_zaznamov);
 		else if (funkcia == 'h')
-			funkcia_h(&pocet_zaznamov);
+			funkcia_h(&pocet_zaznamov, &head, &current);
 		else if (funkcia == 'a')
 			funkcia_a(&pocet_zaznamov);
 		else if (funkcia == 'k') {
