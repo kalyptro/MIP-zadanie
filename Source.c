@@ -152,6 +152,7 @@ void funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 	int zadany_rok, j=0, i=0;
 	scanf("%s", &zadana_znacka);
 	scanf("%d", &zadany_rok);
+	printf("zadany rok: %d\n", zadany_rok);
 
 	//zmena pismen na velke pre nasledne porovnanie
 	while (zadana_znacka[j - 1]) {
@@ -162,9 +163,10 @@ void funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 	Zaznam *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
-			if ((strcasecmp(upper_zadana_znacka, temp->znacka) == 0) && (zadany_rok = temp->rok_vyroby)) {
+			if ((zadany_rok == temp->rok_vyroby) && (strcasecmp(upper_zadana_znacka, temp->znacka) == 0)) {
 				i++;
 				temp->cena -= 100;
+
 				if (temp->cena < 0)
 					temp->cena == 0;
 			}
