@@ -30,7 +30,7 @@ Zaznam *funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	if (!fr1) {
 		printf("Zaznamy neboli nacitane\n");
 	}
-	
+
 	//zistenie poctu zaznamov a vypis
 	while ((c = getc(fr1)) != EOF) {
 		if (c == '$') {
@@ -83,7 +83,7 @@ Zaznam *funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 
 //vypis poloziek
 void funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
-	int i=1;
+	int i = 1;
 	Zaznam *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
@@ -109,7 +109,7 @@ void funkcia_z(int *p_pocet_zaznamov) {
 }
 
 //vypise auta podla nazvu a ceny
-void funkcia_h(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
+void funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacita udaje
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
@@ -144,8 +144,16 @@ void funkcia_h(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	}
 }
 
-void funkcia_a(int *p_pocet_zaznamov) {
+void funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 	printf("som a\n");
+	Zaznam *temp = head;
+	if (temp != NULL) {
+		while (temp->next != NULL) {
+			
+
+			temp = temp->next;
+		}
+	}
 }
 
 void funkcia_k() {
@@ -165,22 +173,19 @@ int main() {
 		if (funkcia == 'n')
 			head = funkcia_n(&pocet_zaznamov, &head, &current);
 		else if (funkcia == 'v')
-			funkcia_v(&pocet_zaznamov, &head, &current);
+			funkcia_v(&pocet_zaznamov, &head);
 		else if (funkcia == 'p')
 			funkcia_p(&pocet_zaznamov);
 		else if (funkcia == 'z')
 			funkcia_z(&pocet_zaznamov);
 		else if (funkcia == 'h')
-			funkcia_h(&pocet_zaznamov, &head, &current);
+			funkcia_h(&pocet_zaznamov, &head);
 		else if (funkcia == 'a')
-			funkcia_a(&pocet_zaznamov);
+			funkcia_a(&pocet_zaznamov, &head);
 		else if (funkcia == 'k') {
 			funkcia_k();
 			break;
 		}
 	}
-
-
-
 	return 0;
 }
