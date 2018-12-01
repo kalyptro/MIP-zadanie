@@ -22,7 +22,7 @@ typedef struct zaznamy {
 } Zaznam;
 
 
-Zaznam *funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
+Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	char c;
 	int i;
 	//otvaranie a kontrola uspesneho otvorenia
@@ -84,7 +84,7 @@ Zaznam *funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 }
 
 //vypis poloziek
-void funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
+int funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
 	int i = 1;
 	Zaznam *temp = head;
 	if (temp != NULL) {
@@ -100,23 +100,25 @@ void funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
 			temp = temp->next;
 		}
 	}
+	return 0;
 }
 
-void funkcia_p(int *p_pocet_zaznamov) {
-	printf("som p\n");
+Zaznam * funkcia_p(int *p_pocet_zaznamov, Zaznam *head) {
+	return head;
 }
 
-void funkcia_z(int *p_pocet_zaznamov) {
-	printf("som z\n");
+Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
+	return head;
 }
 
 //vypise auta podla nazvu a ceny
-void funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
+int funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacita udaje
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
 	int zadana_cena, i = 1, j = 0;
-	scanf("%s", &zadana_znacka);
+	//fgets(zadana_znacka, 50, stdin);
+	scanf("%s", zadana_znacka);
 	scanf("%d", &zadana_cena);
 
 	//zmena pismen na velke pre nasledne porovnanie
@@ -144,17 +146,17 @@ void funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 		if (i == 1)
 			printf("V ponuke nie su pozadovane auta.\n");
 	}
+	return 0;
 }
 
-//aktualizyuje cenu vozidla podla znacky a roku vyroby
-void funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
+//aktualizuje cenu vozidla podla znacky a roku vyroby
+int funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacitavanie udajov
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
 	int zadany_rok, j = 0, i = 0;
 	scanf("%s", &zadana_znacka);
 	scanf("%d", &zadany_rok);
-	printf("zadany rok: %d\n", zadany_rok);
 
 	//zmena pismen na velke pre nasledne porovnanie
 	while (zadana_znacka[j - 1]) {
@@ -176,10 +178,11 @@ void funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 		}
 	}
 	printf("Aktualizovalo sa %d zaznamov\n", i);
+	return 1;
 }
 
 void funkcia_k() {
-	printf("som k\n");
+	
 }
 
 int main() {
@@ -197,13 +200,13 @@ int main() {
 		else if (funkcia == 'v')
 			funkcia_v(&pocet_zaznamov, head);
 		else if (funkcia == 'p')
-			funkcia_p(&pocet_zaznamov);
+			funkcia_p(&pocet_zaznamov, head);
 		else if (funkcia == 'z')
-			funkcia_z(&pocet_zaznamov);
+			funkcia_z(&pocet_zaznamov, head);
 		else if (funkcia == 'h')
-			funkcia_h(&pocet_zaznamov, &head);
+			funkcia_h(&pocet_zaznamov, head);
 		else if (funkcia == 'a')
-			funkcia_a(&pocet_zaznamov, &head);
+			funkcia_a(&pocet_zaznamov, head);
 		else if (funkcia == 'k') {
 			funkcia_k();
 			break;
