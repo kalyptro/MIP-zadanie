@@ -11,10 +11,10 @@
 #include <stdlib.h>
 
 //vytvorenie struct
-typedef struct zaznamy{
+typedef struct zaznamy {
 	char kategoria[50];
 	char znacka[50];
-	char predajca[50];
+	char predajca[100];
 	int cena;
 	int rok_vyroby;
 	char stav_vozidla[200];
@@ -46,15 +46,17 @@ Zaznam *funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	//postupne naplnenie structov
 
 	Zaznam *temp = NULL;
-	for (i = 0; i < *p_pocet_zaznamov; i++) {
+	for (i = 0; i < *p_pocet_zaznamov+1; i++) {
 		current = (Zaznam *)malloc(sizeof(Zaznam));        //vytvorenie izolovaneho structu
 		getc(fr2);
 		getc(fr2);
 		fgets(&current->kategoria, 50, fr2);
 		strtok(current->kategoria, "\n");
-		fscanf(fr2, "%s", &current->znacka);
-		getc(fr2);
-		fgets(&current->predajca, 50, fr2);
+		//fscanf(fr2, "%s", &current->znacka);
+		fgets(&current->znacka, 50, fr2);
+		strtok(current->znacka, "\n");
+		//getc(fr2);
+		fgets(&current->predajca, 100, fr2);
 		strtok(current->predajca, "\n");
 		fscanf(fr2, "%d", &current->cena);
 		getc(fr2);
@@ -113,16 +115,16 @@ void funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacita udaje
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
-	int zadana_cena, i=1, j=0;
+	int zadana_cena, i = 1, j = 0;
 	scanf("%s", &zadana_znacka);
 	scanf("%d", &zadana_cena);
-	
+
 	//zmena pismen na velke pre nasledne porovnanie
-	while (zadana_znacka[j-1]) {
+	while (zadana_znacka[j - 1]) {
 		upper_zadana_znacka[j] = toupper(zadana_znacka[j]);
 		j++;
 	}
-	
+
 	//kontrola podmienok a vypis
 	Zaznam *temp = head;
 	if (temp != NULL) {
@@ -149,7 +151,7 @@ void funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacitavanie udajov
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
-	int zadany_rok, j=0, i=0;
+	int zadany_rok, j = 0, i = 0;
 	scanf("%s", &zadana_znacka);
 	scanf("%d", &zadany_rok);
 	printf("zadany rok: %d\n", zadany_rok);
@@ -180,7 +182,7 @@ void funkcia_k() {
 	printf("som k\n");
 }
 
-int main() { 
+int main() {
 	Zaznam *head, *current;
 	head = current = NULL;
 	char funkcia;
@@ -188,12 +190,12 @@ int main() {
 	int *p_pocet_zaznamov = &pocet_zaznamov;
 
 
-	while(1) {
+	while (1) {
 		scanf("%c", &funkcia);
 		if (funkcia == 'n')
-			head = funkcia_n(&pocet_zaznamov, &head, &current);
+			head = funkcia_n(&pocet_zaznamov, head, current);
 		else if (funkcia == 'v')
-			funkcia_v(&pocet_zaznamov, &head);
+			funkcia_v(&pocet_zaznamov, head);
 		else if (funkcia == 'p')
 			funkcia_p(&pocet_zaznamov);
 		else if (funkcia == 'z')
