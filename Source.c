@@ -12,12 +12,12 @@
 
 //vytvorenie struct
 typedef struct zaznamy {
-	char kategoria[50];
-	char znacka[50];
-	char predajca[100];
+	char kategoria[51];
+	char znacka[51];
+	char predajca[101];
 	int cena;
 	int rok_vyroby;
-	char stav_vozidla[200];
+	char stav_vozidla[201];
 	struct zaznamy *next;
 } Zaznam;
 
@@ -124,7 +124,7 @@ Zaznam * funkcia_p(int *p_pocet_zaznamov, Zaznam *head) {
 
 //odstranuje podla znacky
 Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
-	int j = 0, k=0, pocet_vymazani = 0;
+	int j = 0, pocet_vymazani = 0;
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
 	//char upper_temp_znacka[50];
@@ -139,17 +139,21 @@ Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
 	//ulozenie head, zmena znacky v head na velke pismena na porovnanie
 	Zaznam * temp = head, *previous = NULL;
 	while (temp->next != NULL) {
+		int k = 0;
 		char upper_temp_znacka[50];
 		while (temp->znacka[k - 1]) {
-			
 			upper_temp_znacka[k] = toupper(temp->znacka[k]);
 			k++;
 		}
-		printf("%s\n", upper_temp_znacka);
+		printf("z listu: %s\n", temp->znacka);
+		printf("velka znacka z listu: %s\n", upper_temp_znacka);
+		if (strstr(upper_temp_znacka, upper_zadana_znacka) != NULL) {
+			printf("%s a %s rovnake\n", upper_temp_znacka, upper_zadana_znacka);
+		}
+		memset(upper_temp_znacka, 0, sizeof(upper_temp_znacka));
 		temp = temp->next;
 	}
-	//strstr(upper_temp_znacka, upper_zadana_znacka) != NULL;
-	
+	//(strcasecmp(upper_zadana_znacka, temp->znacka) == 0)
 
 	printf("Vymazalo sa %d zaznamov\n", pocet_vymazani);
 	return head;
