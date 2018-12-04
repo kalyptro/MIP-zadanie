@@ -69,9 +69,9 @@ Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 
 			current->next = NULL;
 
-			if (head == NULL) {									//prepojenie s predchadzajucimi alebo
-				head = current;									//ak je prazdny, tak vztvorenie prveho
-			}													//tym prvym je potom current
+			if (head == NULL) {									
+				head = current;									
+			}													
 			else {
 				temp = head;
 				while (temp->next != NULL) {
@@ -130,7 +130,7 @@ Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
 	//char upper_temp_znacka[50];
 	scanf("%s", &zadana_znacka);
 
-	//zmena znakov zadanej znackt na velke pre nasledne porovnanie
+	//zmena znakov zadanej znacky na velke pre nasledne porovnanie
 	while (zadana_znacka[j - 1]) {
 		upper_zadana_znacka[j] = toupper(zadana_znacka[j]);
 		j++;
@@ -139,21 +139,30 @@ Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
 	//ulozenie head, zmena znacky v head na velke pismena na porovnanie
 	Zaznam * temp = head, *previous = NULL;
 	while (temp->next != NULL) {
-		int k = 0;
+		int k = 0, vymazat = 0;
 		char upper_temp_znacka[50];
 		while (temp->znacka[k - 1]) {
 			upper_temp_znacka[k] = toupper(temp->znacka[k]);
 			k++;
 		}
-		printf("z listu: %s\n", temp->znacka);
-		printf("velka znacka z listu: %s\n", upper_temp_znacka);
+		//printf("%s\n", upper_temp_znacka);
+		//podmienka na vymazanie
 		if (strstr(upper_temp_znacka, upper_zadana_znacka) != NULL) {
-			printf("%s a %s rovnake\n", upper_temp_znacka, upper_zadana_znacka);
+			pocet_vymazani++;
+			if (temp == head) {
+				head = head->next;
+				free(temp);
+			}
+			
+			previous = temp;
+			temp = temp->next;
+			previous->next = temp->next;
+			free(temp); 
 		}
+			
 		memset(upper_temp_znacka, 0, sizeof(upper_temp_znacka));
 		temp = temp->next;
 	}
-	//(strcasecmp(upper_zadana_znacka, temp->znacka) == 0)
 
 	printf("Vymazalo sa %d zaznamov\n", pocet_vymazani);
 	return head;
