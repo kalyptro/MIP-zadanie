@@ -21,7 +21,7 @@ typedef struct zaznamy {
 	struct zaznamy *next;
 } Zaznam;
 
-
+//funkcia nacita udaje zo suboru
 Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 	//kontrola ci uz bol list vytvoreny, ak nie nacita zo suboru, ak ano, uvolni sa
 	if (head == NULL) {
@@ -45,8 +45,8 @@ Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 		if (!fr2) {
 			printf("Zaznamy neboli nacitane\n");
 		}
+		
 		//postupne naplnenie structov
-
 		Zaznam *temp = NULL;
 		for (i = 0; i < *p_pocet_zaznamov + 1; i++) {
 			current = (Zaznam *)malloc(sizeof(Zaznam));        //vytvorenie izolovaneho structu
@@ -54,10 +54,8 @@ Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 			getc(fr2);
 			fgets(&current->kategoria, 50, fr2);
 			strtok(current->kategoria, "\n");
-			//fscanf(fr2, "%s", &current->znacka);
 			fgets(&current->znacka, 50, fr2);
 			strtok(current->znacka, "\n");
-			//getc(fr2);
 			fgets(&current->predajca, 100, fr2);
 			strtok(current->predajca, "\n");
 			fscanf(fr2, "%d", &current->cena);
@@ -116,7 +114,86 @@ int funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
 	return 0;
 }
 
+//pridava zaznam na zadanu poziciu
 Zaznam * funkcia_p(int *p_pocet_zaznamov, Zaznam *head) {
+	//nacitanie a kontrola ci je pozicia kladne cislo
+	int pozicia, i;
+	scanf("%d", &pozicia);
+	if (pozicia < 1) {
+		return head;
+	}
+ 
+	char *added_kategoria;
+	char *added_znacka;
+	char *addeda_predajca;
+	int added_cena;
+	int added_rok_vyroby;
+	char *added_stav_vozidla;
+
+	//priadnie na zaciatok
+	if (pozicia == 1) {
+		//vytvorenie docasnej struktury a vlozenie udajov
+		Zaznam *docasny = (Zaznam *)malloc(sizeof(Zaznam));
+		*docasny->kategoria = scanf("%[^\n]\n", &added_kategoria);
+		*docasny->znacka = scanf("%[^\n]\n", &added_znacka);
+		*docasny->predajca = scanf("%[^\n]\n", &addeda_predajca);
+		docasny->cena = scanf("%d", &added_cena);
+		docasny->rok_vyroby = scanf("%d", &added_rok_vyroby);
+		*docasny->stav_vozidla = scanf("%[^\n]\n", &added_stav_vozidla);
+
+		//ulozenie docasneho na zaciatok spajaneho zoznamu
+		docasny->next = head;
+		head = docasny;
+	}
+
+	//pridanie na n-tu poziciu
+	if (pozicia > 1) {
+		while (1) {
+			Zaznam *temp = head;
+			if (temp != NULL) {
+				while (temp->next != NULL) {
+					i++;	//pocet prvkov v zozname
+					// ked najde spravnu poziciu
+					if (i == pozicia) {
+						//vytvorenie docasnej struktury a vlozenie udajov
+						Zaznam *docasny = (Zaznam *)malloc(sizeof(Zaznam));
+						*docasny->kategoria = scanf("%[^\n]\n", &added_kategoria);
+						*docasny->znacka = scanf("%[^\n]\n", &added_znacka);
+						*docasny->predajca = scanf("%[^\n]\n", &addeda_predajca);
+						docasny->cena = scanf("%d", &added_cena);
+						docasny->rok_vyroby = scanf("%d", &added_rok_vyroby);
+						*docasny->stav_vozidla = scanf("%[^\n]\n", &added_stav_vozidla);
+
+						docasny->next = temp->next;
+						temp->next = docasny;
+					}
+
+					//ked je cislo pozicie vacsie ako pocet prvkov v zozname, pridava novz prvok na koniec
+					if (i < pozicia) {
+						//vytvorenie docasnej struktury a vlozenie udajov
+						Zaznam *docasny = (Zaznam *)malloc(sizeof(Zaznam));
+						*docasny->kategoria = scanf("%[^\n]\n", &added_kategoria);
+						*docasny->znacka = scanf("%[^\n]\n", &added_znacka);
+						*docasny->predajca = scanf("%[^\n]\n", &addeda_predajca);
+						docasny->cena = scanf("%d", &added_cena);
+						docasny->rok_vyroby = scanf("%d", &added_rok_vyroby);
+						*docasny->stav_vozidla = scanf("%[^\n]\n", &added_stav_vozidla);
+
+						//najdenie posledneho
+						Zaznam *last = (Zaznam *)malloc(sizeof(Zaznam));
+						while (last->next != NULL) {
+							last = last->next;
+						}
+						//pridanie na posledne miesto;
+						last->next = docasny;
+					}
+					temp = temp->next;
+				}
+			}
+		}
+	}
+
+
 	return head;
 }
 
@@ -145,7 +222,6 @@ Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
 			upper_temp_znacka[k] = toupper(temp->znacka[k]);
 			k++;
 		}
-		//printf("%s\n", upper_temp_znacka);
 		//podmienka na vymazanie
 		if (strstr(upper_temp_znacka, upper_zadana_znacka) != NULL) {
 			pocet_vymazani++;
@@ -159,11 +235,9 @@ Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
 			previous->next = temp->next;
 			free(temp); 
 		}
-			
 		memset(upper_temp_znacka, 0, sizeof(upper_temp_znacka));
 		temp = temp->next;
 	}
-
 	printf("Vymazalo sa %d zaznamov\n", pocet_vymazani);
 	return head;
 }
@@ -174,7 +248,6 @@ int funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
 	int zadana_cena, i = 1, j = 0;
-	//fgets(zadana_znacka, 50, stdin);
 	scanf("%s", zadana_znacka);
 	scanf("%d", &zadana_cena);
 
@@ -221,6 +294,7 @@ int funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 		j++;
 	}
 
+	//aktualizacia ceny
 	Zaznam *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
