@@ -1,0 +1,14 @@
+# Ignoruj README
+README.txt
+
+# Ignoruj Projekt2.sln
+Projekt2.sln
+
+# Ignoruj zložku Debug
+Debug/
+
+# Ignoruj zložku Projekt 2
+Projekt 2/
+
+# Ignoruj zložku x64
+x64/
