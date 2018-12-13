@@ -1,13 +1,13 @@
 O PROJEKTE
 
-Tento projekt je druhım projektom z predmetu Procedurálne programovanie.
-V projekte sa pracuje so spájanım zoznamom, ktorı je upravovanı rôznymi funkciami.
+Tento projekt je druhÃ½m projektom z predmetu ProcedurÃ¡lne programovanie.
+V projekte sa pracuje so spÃ¡janÃ½m zoznamom, ktorÃ½ je upravovanÃ½ rÃ´znymi funkciami.
 
 REFAKTORING
 
-Refaktorovacie techniky pouité v tomto projekte sú:
-	1. Primerané komentovanie pouitıch algoritmov
-	2. Rozclenenie velkıch funkcií na menšie
-	3. Odstránenie tzv. magickı císel - ich pomenovanie premennımi
-	4. Poriadne názvy premennıch, vyjadrujúce ich zmysel
+Refaktorovacie techniky pouÅ¾itÃ© v tomto projekte sÃº:
+	1. PrimeranÃ© komentovanie pouÅ¾itÃ½ch algoritmov
+	2. RozÄlenenie veÄ¾kÃ½ch funkciÃ­ na menÅ¡ie
+	3. OdstrÃ¡nenie tzv. magickÃ½ ÄÃ­sel - ich pomenovanie premennÃ½mi
+	4. Poriadne nÃ¡zvy premennÃ½ch, vyjadrujÃºce ich zmysel
 
