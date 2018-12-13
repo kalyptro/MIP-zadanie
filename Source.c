@@ -28,21 +28,21 @@ Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 		char c;
 		int i;
 		//otvaranie a kontrola uspesneho otvorenia
-		FILE *fr1 = fopen("auta.txt", "r");
-		if (!fr1) {
+		FILE *file_read1 = fopen("auta.txt", "r");
+		if (!file_read1) {
 			printf("Zaznamy neboli nacitane\n");
 		}
 
 		//zistenie poctu zaznamov a vypis
-		while ((c = getc(fr1)) != EOF) {
+		while ((c = getc(file_read1)) != EOF) {
 			if (c == '$') {
 				(*p_pocet_zaznamov)++;
 			}
 		}
 		printf("Nacitalo sa %d zaznamov\n", *p_pocet_zaznamov);
-		fclose(fr1);
-		FILE *fr2 = fopen("auta.txt", "r");
-		if (!fr2) {
+		fclose(file_read1);
+		FILE *file_read2 = fopen("auta.txt", "r");
+		if (!file_read2) {
 			printf("Zaznamy neboli nacitane\n");
 		}
 		
@@ -50,19 +50,19 @@ Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 		Zaznam *temp = NULL;
 		for (i = 0; i < *p_pocet_zaznamov + 1; i++) {
 			current = (Zaznam *)malloc(sizeof(Zaznam));        //vytvorenie izolovaneho structu
-			getc(fr2);
-			getc(fr2);
-			fgets(&current->kategoria, 50, fr2);
+			getc(file_read2);
+			getc(file_read2);
+			fgets(&current->kategoria, 50, file_read2);
 			strtok(current->kategoria, "\n");
-			fgets(&current->znacka, 50, fr2);
+			fgets(&current->znacka, 50, file_read2);
 			strtok(current->znacka, "\n");
-			fgets(&current->predajca, 100, fr2);
+			fgets(&current->predajca, 100, file_read2);
 			strtok(current->predajca, "\n");
-			fscanf(fr2, "%d", &current->cena);
-			getc(fr2);
-			fscanf(fr2, "%d", &current->rok_vyroby);
-			getc(fr2);
-			fgets(&current->stav_vozidla, 200, fr2);
+			fscanf(file_read2, "%d", &current->cena);
+			getc(file_read2);
+			fscanf(file_read2, "%d", &current->rok_vyroby);
+			getc(file_read2);
+			fgets(&current->stav_vozidla, 200, file_read2);
 			strtok(current->stav_vozidla, "\n");
 
 			current->next = NULL;
@@ -79,7 +79,7 @@ Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 			}
 		}
 
-		fclose(fr2);
+		fclose(file_read2);
 		return head;
 	}
 	else {
@@ -96,18 +96,18 @@ Zaznam * funkcia_n(int *p_pocet_zaznamov, Zaznam *head, Zaznam *current) {
 
 //vypis poloziek
 int funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
-	int i = 1;
+	int poradie_zaznam = 1;
 	Zaznam *temp = head;
 	if (temp != NULL) {
 		while (temp->next != NULL) {
-			printf("%d.\n", i);
+			printf("%d.\n", poradie_zaznam);
 			printf("kategoria: %s\n", temp->kategoria);
 			printf("znacka: %s\n", temp->znacka);
 			printf("predajca: %s\n", temp->predajca);
 			printf("cena: %d\n", temp->cena);
 			printf("rok_vyroby: %d\n", temp->rok_vyroby);
 			printf("stav_vozidla: %s\n", temp->stav_vozidla);
-			i++;
+			poradie_zaznam++;
 			temp = temp->next;
 		}
 	}
@@ -117,7 +117,7 @@ int funkcia_v(int *p_pocet_zaznamov, Zaznam *head) {
 //pridava zaznam na zadanu poziciu
 Zaznam * funkcia_p(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacitanie a kontrola ci je pozicia kladne cislo
-	int pozicia, i;
+	int pozicia, pocet_prvkov=0;
 	scanf("%d", &pozicia);
 	if (pozicia < 1) {
 		return head;
@@ -152,9 +152,9 @@ Zaznam * funkcia_p(int *p_pocet_zaznamov, Zaznam *head) {
 			Zaznam *temp = head;
 			if (temp != NULL) {
 				while (temp->next != NULL) {
-					i++;	//pocet prvkov v zozname
+					pocet_prvkov++;	//pocet prvkov v zozname
 					// ked najde spravnu poziciu
-					if (i == pozicia) {
+					if (pocet_prvkov == pozicia) {
 						//vytvorenie docasnej struktury a vlozenie udajov
 						Zaznam *docasny = (Zaznam *)malloc(sizeof(Zaznam));
 						*docasny->kategoria = scanf("%[^\n]\n", &added_kategoria);
@@ -169,7 +169,7 @@ Zaznam * funkcia_p(int *p_pocet_zaznamov, Zaznam *head) {
 					}
 
 					//ked je cislo pozicie vacsie ako pocet prvkov v zozname, pridava novz prvok na koniec
-					if (i < pozicia) {
+					if (pocet_prvkov < pozicia) {
 						//vytvorenie docasnej struktury a vlozenie udajov
 						Zaznam *docasny = (Zaznam *)malloc(sizeof(Zaznam));
 						*docasny->kategoria = scanf("%[^\n]\n", &added_kategoria);
@@ -204,7 +204,6 @@ Zaznam * funkcia_z(int *p_pocet_zaznamov, Zaznam *head) {
 	int j = 0, pocet_vymazani = 0;
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
-	//char upper_temp_znacka[50];
 	scanf("%s", &zadana_znacka);
 
 	//zmena znakov zadanej znacky na velke pre nasledne porovnanie
@@ -247,7 +246,7 @@ int funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacita udaje
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
-	int zadana_cena, i = 1, j = 0;
+	int zadana_cena, poradie = 1, j = 0;
 	scanf("%s", zadana_znacka);
 	scanf("%d", &zadana_cena);
 
@@ -262,18 +261,18 @@ int funkcia_h(int *p_pocet_zaznamov, Zaznam *head) {
 	if (temp != NULL) {
 		while (temp->next != NULL) {
 			if ((strcasecmp(upper_zadana_znacka, temp->znacka) == 0) && (zadana_cena >= temp->cena)) {
-				printf("%d.\n", i);
+				printf("%d.\n", poradie);
 				printf("kategoria: %s\n", temp->kategoria);
 				printf("znacka: %s\n", temp->znacka);
 				printf("predajca: %s\n", temp->predajca);
 				printf("cena: %d\n", temp->cena);
 				printf("rok_vyroby: %d\n", temp->rok_vyroby);
 				printf("stav_vozidla: %s\n", temp->stav_vozidla);
-				i++;
+				poradie++;
 			}
 			temp = temp->next;
 		}
-		if (i == 1)
+		if (poradie == 1)
 			printf("V ponuke nie su pozadovane auta.\n");
 	}
 	return 0;
@@ -284,7 +283,7 @@ int funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 	//nacitavanie udajov
 	char zadana_znacka[50];
 	char upper_zadana_znacka[50];
-	int zadany_rok, j = 0, i = 0;
+	int zadany_rok, j = 0, pocet_aktualizovanych = 0;
 	scanf("%s", &zadana_znacka);
 	scanf("%d", &zadany_rok);
 
@@ -299,7 +298,7 @@ int funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 	if (temp != NULL) {
 		while (temp->next != NULL) {
 			if ((zadany_rok == temp->rok_vyroby) && (strcasecmp(upper_zadana_znacka, temp->znacka) == 0)) {
-				i++;
+				pocet_aktualizovanych++;
 				temp->cena -= 100;
 
 				if (temp->cena < 0)
@@ -308,7 +307,7 @@ int funkcia_a(int *p_pocet_zaznamov, Zaznam *head) {
 			temp = temp->next;
 		}
 	}
-	printf("Aktualizovalo sa %d zaznamov\n", i);
+	printf("Aktualizovalo sa %d zaznamov\n", pocet_aktualizovanych);
 	return 1;
 }
 
